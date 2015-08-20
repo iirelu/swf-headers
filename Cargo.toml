@@ -1,6 +1,6 @@
 [package]
 name = "swf-headers"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["iirelu <totallymyrealemail@hush.ai>"]
 
 [dependencies]
