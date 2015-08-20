@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["BitRange","Helper trait for getting a range of bits from a container of bytes as a u32."]]});

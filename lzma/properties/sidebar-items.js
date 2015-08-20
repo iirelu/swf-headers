@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["read","Read the model properties from a stream."]],"struct":[["Properties","LZMA model properties."]]});

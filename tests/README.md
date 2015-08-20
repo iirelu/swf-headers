@@ -1,3 +1,0 @@
-Look, I'll be honest; This ain't pretty. Not only am I bordering on the edge of copyright infringement, not only is the test coverage given by the swf files used extremely minimal, but the tests are also going to break as soon as any of the swf files are changed. I'd *really* love some tiny public domain swf files I could just stick in this repo and build tests upon, but unfortunately I don't have 5 different versions of flash lying around. On the other hand, if you do, I'd gladly accept samples to test with!
-
-However, as it stands, if you want to get tests working, you'll have to run `./setup.sh`. :(

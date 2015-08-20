@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DecodedSwf","Handles decompressing swf innards and reading the results."]]});
