@@ -35,3 +35,25 @@ decoded_swf.read_to_end(&mut the_rest_of_the_swf).ok().expect("Oh no! Error read
 ## Testing
 
 Testing is a pain when you have to test on proprietary blobs. See tests/README.md for more information.
+
+## FAQ
+
+### Q: Why make a library for parsing swf files?
+
+A: Why not? I had some experience with it, and I noticed there were no swf parsing tools on crates.io, so I identified my niche and ran with it.
+
+### Q: Does this *really* need to rely on two decompression libraries just to parse a header?
+
+A: Sadly, yes. The swf spec is awful, so swf files usually end up with half the header compressed with either zlib or LZMA.
+
+### Q: Where's the swf spec?
+
+A: [Here](https://www.adobe.com/content/dam/Adobe/en/devnet/swf/pdf/swf-file-format-spec.pdf). You'll probably want to read that through if you're planning on parsing the rest of the swf, but for understanding this library you just need the first chapter and page 27.
+
+### Q: Hey, I have some public domain swf files using weird flash settings, do you want them?
+
+A: Sure! Test coverage is proving to be the hardest part of this whole ordeal, so I could always welcome small swf files to test with.
+
+### Q: Your code sucks. Can I fix it?
+
+A: Also sure! Pull Requests are welcome.
