@@ -1,0 +1,9 @@
+[package]
+name = "swf-headers"
+version = "0.1.0"
+authors = ["iirelu <totallymyrealemail@hush.ai>"]
+
+[dependencies]
+byteorder = "*"
+flate2 = "*"
+lzma = "*"
