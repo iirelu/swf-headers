@@ -2,6 +2,9 @@
 
 A library for reading the headers of a swf file, and optionally for helping you read the rest of it, too.
 
+* [Crates.io](https://crates.io/crates/swf-headers)
+* [Documentation](https://iirelu.github.io/swf-headers/swf_headers/)
+
 ## Example:
 
 ```rust
