@@ -16,13 +16,16 @@ enum Inner<R: Read> {
 }
 
 /// Handles decompressing swf innards and reading the results.
+///
+/// This is a helper struct abstracting over the various kinds of compression
+/// SWF files can use, namely zlib and LZMA.
 pub struct DecodedSwf {
     _inner: Inner<File>
 }
 
 impl DecodedSwf {
-    /// Takes a file and a swf signature and returns an EncodedSwf that handles all the
-    /// compression for you.
+    /// Takes a file and a SWF signature, and handles decompressing the file
+    /// accordingly, returning a reader.
     pub fn decompress(file: File, sig: Signature) -> Result<Self, super::Error> {
         let inner = match sig {
             Signature::Uncompressed => Inner::Raw(file),

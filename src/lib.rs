@@ -1,4 +1,15 @@
-//! A library for reading data from the header of a .swf file
+//! A library for reading data from the header of a .swf file that can also be
+//! used as the ground-works for a larger library that works on parsing the
+//! rest.
+//!
+//! * [Github repo](https://github.com/iirelu/swf-headers)
+//! * [Crates.io](https://crates.io/crates/swf-headers)
+//!
+//! Parsing SWF files can be tricky, which is why I made this crate to help
+//! you out! Not only does it provide a convenient way to read through the
+//! headers of any SWF file, but it also gives you a readable stream of
+//! everything just after the header, with all compression issues sorted
+//! out for you! How useful.
 
 #![warn(missing_docs)]
 
@@ -19,18 +30,26 @@ pub use error::Error;
 
 use byteorder::{LittleEndian, ReadBytesExt};
 
-/// An enum representing all the valid signatures of a swf file
+/// An enum representing all the valid signatures of a SWF file.
+///
+/// As of the latest SWF specification, there are 3 valid signatures a SWF file
+/// can have. The first three bytes of a SWF file act as the magic numbers, FWS
+/// (SWF backwards) was defined with the original specification, and designates
+/// an uncompressed SWF file. CWS was introduced with SWF 6, and specifies that
+/// all bytes beyond the first 8 are compressed using zlib. ZWS was added with
+/// SWF 13, and displays the same concept, but with LZMA instead of zlib.
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub enum Signature {
-    /// The signature is FWS, meaning an uncompressed swf file.
+    /// A signature of FWS, meaning an uncompressed SWF file.
     Uncompressed,
-    /// The signature is CWS, meaning a zlib-compressed swf file.
+    /// A signature of CWS, meaning a zlib-compressed SWF file.
     ZlibCompressed,
-    /// The signature is ZWS, meaning an LZMA-compressed swf file.
+    /// A signature of ZWS, meaning an LZMA-compressed SWF file.
     LzmaCompressed
 }
 
-/// A struct containing all the parsed headers of a swf file.
+/// The primary struct, managing all the parsing and storage of SWF header
+/// information.
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct SwfHeaders {
     signature: Signature,
@@ -43,14 +62,37 @@ pub struct SwfHeaders {
 }
 
 impl SwfHeaders {
-    /// Opens a swf file and parses its headers, returning the header struct along with
-    /// a readable DecodedSwf if you wish to continue parsing the file.
+    /// Wraps over read_from(), taking a path and opening it for you.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use swf_headers::SwfHeaders;
+    /// if let Ok((headers, decoded)) = SwfHeaders::open("example.swf") {
+    ///     // ...
+    /// }
     pub fn open<T: AsRef<Path>>(path: T) -> Result<(Self, DecodedSwf), Error> {
         Self::read_from(try!(File::open(path)))
     }
 
-    /// Takes a swf file and parses its headers, returning the header struct along with
-    /// a readable DecodedSwf if you wish to continue parsing the file.
+    /// Takes a SWF file and parses its headers, returning the header struct
+    /// along with a readable DecodedSwf if you wish to continue parsing the
+    /// file.
+    ///
+    /// The vast bulk of SWF parsing happens in here. The code is documented,
+    /// so you can read through the source if you want to understand how it
+    /// all works.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use std::fs::File;
+    /// use swf_headers::SwfHeaders;
+    /// if let Ok(file) = File::open("example.swf") {
+    ///     let (headers, decoded) = SwfHeaders::read_from(file).unwrap();
+    ///     // ...
+    /// }
+    /// ```
     pub fn read_from(mut file: File) -> Result<(Self, DecodedSwf), Error> {
         // SWF header strcture overview:
         // Everything is little endian.

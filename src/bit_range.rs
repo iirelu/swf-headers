@@ -1,12 +1,19 @@
 use std::ops::Range;
 
 /// Helper trait for getting a range of bits from a container of bytes as a u32.
+///
+/// This is useful as the SWF spec employs the use of what it calls bit fields
+/// a lot, which are non-byte-aligned numbers and data. It's publicly
+/// re-exported so that if you want to continue parsing the SWF, you don't
+/// have to reimplement it yourself.
 pub trait BitRange {
     /// Takes a range and converts the bits in that range into a u32.
     ///
-    /// Example:
+    /// # Examples
+    ///
     /// ```rust
-    /// let vec = vec![0b0010_1100, 0b0111_0010];
+    /// use swf_headers::BitRange;
+    /// let vec: Vec<u8> = vec![0b0010_1100, 0b0111_0010];
     /// assert!(vec.get_bit_range(2..12) == 0b1011000111);
     /// ```
     fn get_bit_range(&self, range: Range<u32>) -> u32;
