@@ -77,16 +77,30 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Range</span>;
 
 <span class='doccomment'>/// Helper trait for getting a range of bits from a container of bytes as a u32.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This is useful as the SWF spec employs the use of what it calls bit fields</span>
+<span class='doccomment'>/// a lot, which are non-byte-aligned numbers and data. It&#39;s publicly</span>
+<span class='doccomment'>/// re-exported so that if you want to continue parsing the SWF, you don&#39;t</span>
+<span class='doccomment'>/// have to reimplement it yourself.</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>BitRange</span> {
     <span class='doccomment'>/// Takes a range and converts the bits in that range into a u32.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Example:</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
-    <span class='doccomment'>/// let vec = vec![0b0010_1100, 0b0111_0010];</span>
+    <span class='doccomment'>/// use swf_headers::BitRange;</span>
+    <span class='doccomment'>/// let vec: Vec&lt;u8&gt; = vec![0b0010_1100, 0b0111_0010];</span>
     <span class='doccomment'>/// assert!(vec.get_bit_range(2..12) == 0b1011000111);</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>fn</span> <span class='ident'>get_bit_range</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>range</span>: <span class='ident'>Range</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>;

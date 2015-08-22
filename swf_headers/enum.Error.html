@@ -45,11 +45,18 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-351' class='srclink' href='../src/swf_headers/error.rs.html#8-13' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-351' class='srclink' href='../src/swf_headers/error.rs.html#15-20' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Error {
     IoError(<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>),
     NotSwf,
 }</pre><div class='docblock'><p>The error type used by swf-headers.</p>
+
+<p>Anything that could be considered a malformed or corrupt SWF falls into
+the broad category of NotSwf, along with everything else that can&#39;t be a
+SWF file. This may change in the future</p>
+
+<p>Implementations of From for a couple of error types are done to make
+using try!() around the place more convenient.</p>
 </div><h2 class='variants'>Variants</h2>
 <table><tr><td id='variant.IoError'><code>IoError</code></td><td><div class='docblock'><p>Any IO error, either from directly reading files or from other libraries.</p>
 </div></td></tr><tr><td id='variant.NotSwf'><code>NotSwf</code></td><td><div class='docblock'><p>All-encompassing variant for anything that can&#39;t be a swf file.</p>

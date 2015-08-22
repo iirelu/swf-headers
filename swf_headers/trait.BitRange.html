@@ -45,17 +45,26 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-128' class='srclink' href='../src/swf_headers/bit_range.rs.html#4-13' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-128' class='srclink' href='../src/swf_headers/bit_range.rs.html#9-20' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait BitRange {
     fn <a href='#tymethod.get_bit_range' class='fnname'>get_bit_range</a>(&amp;self, range: <a class='struct' href='http://doc.rust-lang.org/nightly/core/ops/struct.Range.html' title='core::ops::Range'>Range</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>;
 }</pre><div class='docblock'><p>Helper trait for getting a range of bits from a container of bytes as a u32.</p>
+
+<p>This is useful as the SWF spec employs the use of what it calls bit fields
+a lot, which are non-byte-aligned numbers and data. It&#39;s publicly
+re-exported so that if you want to continue parsing the SWF, you don&#39;t
+have to reimplement it yourself.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
         <h3 id='tymethod.get_bit_range' class='method stab '><code>fn <a href='#tymethod.get_bit_range' class='fnname'>get_bit_range</a>(&amp;self, range: <a class='struct' href='http://doc.rust-lang.org/nightly/core/ops/struct.Range.html' title='core::ops::Range'>Range</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>&gt;) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h3><div class='docblock'><p>Takes a range and converts the bits in that range into a u32.</p>
 
-<p>Example:
-<code>rust let vec = vec![0b0010_1100, 0b0111_0010]; assert!(vec.get_bit_range(2..12) == 0b1011000111);</code></p>
+<h1 id="examples" class='section-header'><a
+                           href="#examples">Examples</a></h1><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>swf_headers</span>::<span class='ident'>BitRange</span>;
+<span class='kw'>let</span> <span class='ident'>vec</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0b0010_1100</span>, <span class='number'>0b0111_0010</span>];
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>vec</span>.<span class='ident'>get_bit_range</span>(<span class='number'>2</span>..<span class='number'>12</span>) <span class='op'>==</span> <span class='number'>0b1011000111</span>);
+</pre>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>

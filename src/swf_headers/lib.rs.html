@@ -256,8 +256,61 @@
 <span id="214">214</span>
 <span id="215">215</span>
 <span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
 </pre><pre class='rust '>
-<span class='doccomment'>//! A library for reading data from the header of a .swf file</span>
+<span class='doccomment'>//! A library for reading data from the header of a .swf file that can also be</span>
+<span class='doccomment'>//! used as the ground-works for a larger library that works on parsing the</span>
+<span class='doccomment'>//! rest.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! * [Github repo](https://github.com/iirelu/swf-headers)</span>
+<span class='doccomment'>//! * [Crates.io](https://crates.io/crates/swf-headers)</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Parsing SWF files can be tricky, which is why I made this crate to help</span>
+<span class='doccomment'>//! you out! Not only does it provide a convenient way to read through the</span>
+<span class='doccomment'>//! headers of any SWF file, but it also gives you a readable stream of</span>
+<span class='doccomment'>//! everything just after the header, with all compression issues sorted</span>
+<span class='doccomment'>//! out for you! How useful.</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
 
@@ -278,18 +331,26 @@
 
 <span class='kw'>use</span> <span class='ident'>byteorder</span>::{<span class='ident'>LittleEndian</span>, <span class='ident'>ReadBytesExt</span>};
 
-<span class='doccomment'>/// An enum representing all the valid signatures of a swf file</span>
+<span class='doccomment'>/// An enum representing all the valid signatures of a SWF file.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// As of the latest SWF specification, there are 3 valid signatures a SWF file</span>
+<span class='doccomment'>/// can have. The first three bytes of a SWF file act as the magic numbers, FWS</span>
+<span class='doccomment'>/// (SWF backwards) was defined with the original specification, and designates</span>
+<span class='doccomment'>/// an uncompressed SWF file. CWS was introduced with SWF 6, and specifies that</span>
+<span class='doccomment'>/// all bytes beyond the first 8 are compressed using zlib. ZWS was added with</span>
+<span class='doccomment'>/// SWF 13, and displays the same concept, but with LZMA instead of zlib.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Signature</span> {
-    <span class='doccomment'>/// The signature is FWS, meaning an uncompressed swf file.</span>
+    <span class='doccomment'>/// A signature of FWS, meaning an uncompressed SWF file.</span>
     <span class='ident'>Uncompressed</span>,
-    <span class='doccomment'>/// The signature is CWS, meaning a zlib-compressed swf file.</span>
+    <span class='doccomment'>/// A signature of CWS, meaning a zlib-compressed SWF file.</span>
     <span class='ident'>ZlibCompressed</span>,
-    <span class='doccomment'>/// The signature is ZWS, meaning an LZMA-compressed swf file.</span>
+    <span class='doccomment'>/// A signature of ZWS, meaning an LZMA-compressed SWF file.</span>
     <span class='ident'>LzmaCompressed</span>
 }
 
-<span class='doccomment'>/// A struct containing all the parsed headers of a swf file.</span>
+<span class='doccomment'>/// The primary struct, managing all the parsing and storage of SWF header</span>
+<span class='doccomment'>/// information.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SwfHeaders</span> {
     <span class='ident'>signature</span>: <span class='ident'>Signature</span>,
@@ -302,14 +363,37 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>SwfHeaders</span> {
-    <span class='doccomment'>/// Opens a swf file and parses its headers, returning the header struct along with</span>
-    <span class='doccomment'>/// a readable DecodedSwf if you wish to continue parsing the file.</span>
+    <span class='doccomment'>/// Wraps over read_from(), taking a path and opening it for you.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// use swf_headers::SwfHeaders;</span>
+    <span class='doccomment'>/// if let Ok((headers, decoded)) = SwfHeaders::open(&quot;example.swf&quot;) {</span>
+    <span class='doccomment'>///     // ...</span>
+    <span class='doccomment'>/// }</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>open</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>path</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='kw'>Self</span>, <span class='ident'>DecodedSwf</span>), <span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='ident'>Self</span>::<span class='ident'>read_from</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>)))
     }
 
-    <span class='doccomment'>/// Takes a swf file and parses its headers, returning the header struct along with</span>
-    <span class='doccomment'>/// a readable DecodedSwf if you wish to continue parsing the file.</span>
+    <span class='doccomment'>/// Takes a SWF file and parses its headers, returning the header struct</span>
+    <span class='doccomment'>/// along with a readable DecodedSwf if you wish to continue parsing the</span>
+    <span class='doccomment'>/// file.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The vast bulk of SWF parsing happens in here. The code is documented,</span>
+    <span class='doccomment'>/// so you can read through the source if you want to understand how it</span>
+    <span class='doccomment'>/// all works.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// use std::fs::File;</span>
+    <span class='doccomment'>/// use swf_headers::SwfHeaders;</span>
+    <span class='doccomment'>/// if let Ok(file) = File::open(&quot;example.swf&quot;) {</span>
+    <span class='doccomment'>///     let (headers, decoded) = SwfHeaders::read_from(file).unwrap();</span>
+    <span class='doccomment'>///     // ...</span>
+    <span class='doccomment'>/// }</span>
+    <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>read_from</span>(<span class='kw-2'>mut</span> <span class='ident'>file</span>: <span class='ident'>File</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='kw'>Self</span>, <span class='ident'>DecodedSwf</span>), <span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='comment'>// SWF header strcture overview:</span>
         <span class='comment'>// Everything is little endian.</span>

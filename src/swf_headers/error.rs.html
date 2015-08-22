@@ -80,6 +80,13 @@
 <span id="38">38</span>
 <span id="39">39</span>
 <span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 
@@ -87,6 +94,13 @@
 <span class='kw'>use</span> <span class='ident'>lzma</span>;
 
 <span class='doccomment'>/// The error type used by swf-headers.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Anything that could be considered a malformed or corrupt SWF falls into</span>
+<span class='doccomment'>/// the broad category of NotSwf, along with everything else that can&#39;t be a</span>
+<span class='doccomment'>/// SWF file. This may change in the future</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Implementations of From for a couple of error types are done to make</span>
+<span class='doccomment'>/// using try!() around the place more convenient.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Error</span> {
     <span class='doccomment'>/// Any IO error, either from directly reading files or from other libraries.</span>

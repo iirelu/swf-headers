@@ -86,6 +86,9 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
@@ -105,13 +108,16 @@
 }
 
 <span class='doccomment'>/// Handles decompressing swf innards and reading the results.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This is a helper struct abstracting over the various kinds of compression</span>
+<span class='doccomment'>/// SWF files can use, namely zlib and LZMA.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DecodedSwf</span> {
     <span class='ident'>_inner</span>: <span class='ident'>Inner</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>
 }
 
 <span class='kw'>impl</span> <span class='ident'>DecodedSwf</span> {
-    <span class='doccomment'>/// Takes a file and a swf signature and returns an EncodedSwf that handles all the</span>
-    <span class='doccomment'>/// compression for you.</span>
+    <span class='doccomment'>/// Takes a file and a SWF signature, and handles decompressing the file</span>
+    <span class='doccomment'>/// accordingly, returning a reader.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>decompress</span>(<span class='ident'>file</span>: <span class='ident'>File</span>, <span class='ident'>sig</span>: <span class='ident'>Signature</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='ident'>super</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>inner</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>sig</span> {
             <span class='ident'>Signature</span>::<span class='ident'>Uncompressed</span> <span class='op'>=&gt;</span> <span class='ident'>Inner</span>::<span class='ident'>Raw</span>(<span class='ident'>file</span>),

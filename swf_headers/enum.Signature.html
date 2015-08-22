@@ -45,16 +45,23 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-469' class='srclink' href='../src/swf_headers/lib.rs.html#24-31' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-469' class='srclink' href='../src/swf_headers/lib.rs.html#42-49' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Signature {
     Uncompressed,
     ZlibCompressed,
     LzmaCompressed,
-}</pre><div class='docblock'><p>An enum representing all the valid signatures of a swf file</p>
+}</pre><div class='docblock'><p>An enum representing all the valid signatures of a SWF file.</p>
+
+<p>As of the latest SWF specification, there are 3 valid signatures a SWF file
+can have. The first three bytes of a SWF file act as the magic numbers, FWS
+(SWF backwards) was defined with the original specification, and designates
+an uncompressed SWF file. CWS was introduced with SWF 6, and specifies that
+all bytes beyond the first 8 are compressed using zlib. ZWS was added with
+SWF 13, and displays the same concept, but with LZMA instead of zlib.</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.Uncompressed'><code>Uncompressed</code></td><td><div class='docblock'><p>The signature is FWS, meaning an uncompressed swf file.</p>
-</div></td></tr><tr><td id='variant.ZlibCompressed'><code>ZlibCompressed</code></td><td><div class='docblock'><p>The signature is CWS, meaning a zlib-compressed swf file.</p>
-</div></td></tr><tr><td id='variant.LzmaCompressed'><code>LzmaCompressed</code></td><td><div class='docblock'><p>The signature is ZWS, meaning an LZMA-compressed swf file.</p>
+<table><tr><td id='variant.Uncompressed'><code>Uncompressed</code></td><td><div class='docblock'><p>A signature of FWS, meaning an uncompressed SWF file.</p>
+</div></td></tr><tr><td id='variant.ZlibCompressed'><code>ZlibCompressed</code></td><td><div class='docblock'><p>A signature of CWS, meaning a zlib-compressed SWF file.</p>
+</div></td></tr><tr><td id='variant.LzmaCompressed'><code>LzmaCompressed</code></td><td><div class='docblock'><p>A signature of ZWS, meaning an LZMA-compressed SWF file.</p>
 </div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../swf_headers/enum.Signature.html' title='swf_headers::Signature'>Signature</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../swf_headers/enum.Signature.html' title='swf_headers::Signature'>Signature</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../swf_headers/enum.Signature.html' title='swf_headers::Signature'>Signature</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.ne' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../swf_headers/enum.Signature.html' title='swf_headers::Signature'>Signature</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
