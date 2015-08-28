@@ -137,7 +137,7 @@ impl SwfHeaders {
         let frame_rate_lower = try!(decoded.read_u8());
         let frame_rate_upper = try!(decoded.read_u8());
         if frame_rate_lower != 0 {
-            panic!("Decimal points in frame rates not yet supported");
+            panic!("swf_headers: Decimal points in frame rates not yet supported");
         }
         let frame_rate = frame_rate_upper as u16;
 
