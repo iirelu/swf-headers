@@ -8,14 +8,6 @@ use std::ops::Range;
 /// have to reimplement it yourself.
 pub trait BitRange {
     /// Takes a range and converts the bits in that range into a u32.
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use swf_headers::BitRange;
-    /// let vec: Vec<u8> = vec![0b0010_1100, 0b0111_0010];
-    /// assert!(vec.get_bit_range(2..12) == 0b1011000111);
-    /// ```
     fn get_bit_range(&self, range: Range<u32>) -> u32;
 }
 

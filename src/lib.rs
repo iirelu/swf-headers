@@ -25,8 +25,8 @@ use std::fs::File;
 use std::path::Path;
 
 pub use decoded_swf::DecodedSwf;
-pub use bit_range::BitRange;
 pub use error::Error;
+use bit_range::BitRange;
 
 use byteorder::{LittleEndian, ReadBytesExt};
 
