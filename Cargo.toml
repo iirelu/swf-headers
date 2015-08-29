@@ -1,6 +1,6 @@
 [package]
 name = "swf-headers"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["iirelu <totallymyrealemail@hush.ai>"]
 description = "A library for parsing the headers of a swf file."
 documentation = "https://iirelu.github.io/swf-headers/swf_headers/"
