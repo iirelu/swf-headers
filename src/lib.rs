@@ -16,9 +16,9 @@
 extern crate byteorder;
 extern crate flate2;
 extern crate lzma;
+extern crate bit_range;
 
 mod decoded_swf;
-mod bit_range;
 mod error;
 
 use std::fs::File;
@@ -26,9 +26,9 @@ use std::path::Path;
 
 pub use decoded_swf::DecodedSwf;
 pub use error::Error;
-use bit_range::BitRange;
 
 use byteorder::{LittleEndian, ReadBytesExt};
+use bit_range::BitRange;
 
 /// An enum representing all the valid signatures of a SWF file.
 ///
