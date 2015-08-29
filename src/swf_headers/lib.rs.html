@@ -317,19 +317,19 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>byteorder</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>flate2</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>lzma</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bit_range</span>;
 
 <span class='kw'>mod</span> <span class='ident'>decoded_swf</span>;
-<span class='kw'>mod</span> <span class='ident'>bit_range</span>;
 <span class='kw'>mod</span> <span class='ident'>error</span>;
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>decoded_swf</span>::<span class='ident'>DecodedSwf</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>bit_range</span>::<span class='ident'>BitRange</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>Error</span>;
 
 <span class='kw'>use</span> <span class='ident'>byteorder</span>::{<span class='ident'>LittleEndian</span>, <span class='ident'>ReadBytesExt</span>};
+<span class='kw'>use</span> <span class='ident'>bit_range</span>::<span class='ident'>BitRange</span>;
 
 <span class='doccomment'>/// An enum representing all the valid signatures of a SWF file.</span>
 <span class='doccomment'>///</span>
@@ -438,7 +438,7 @@
         <span class='kw'>let</span> <span class='ident'>frame_rate_lower</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decoded</span>.<span class='ident'>read_u8</span>());
         <span class='kw'>let</span> <span class='ident'>frame_rate_upper</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>decoded</span>.<span class='ident'>read_u8</span>());
         <span class='kw'>if</span> <span class='ident'>frame_rate_lower</span> <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Decimal points in frame rates not yet supported&quot;</span>);
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;swf_headers: Decimal points in frame rates not yet supported&quot;</span>);
         }
         <span class='kw'>let</span> <span class='ident'>frame_rate</span> <span class='op'>=</span> <span class='ident'>frame_rate_upper</span> <span class='kw'>as</span> <span class='ident'>u16</span>;
 
